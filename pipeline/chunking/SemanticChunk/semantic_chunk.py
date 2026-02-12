@@ -15,7 +15,7 @@ def create_directory(path):
         os.makedirs(path)
         print(f"Created directory: {path}")
 
-
+os.environ["TIKTOKEN_CACHE_DIR"] = "/data/h50056787/workspaces/lightrag/tiktoken_cache"
 # 设置命令行参数解析器
 parser = argparse.ArgumentParser(description="Process some text.")
 parser.add_argument('--books_dir', type=str, required=True, help="包含原始文档的目录路径")
@@ -50,7 +50,7 @@ if not os.path.exists(output_file) or True:
     ).load_data()
     
     # 执行语义分块处理
-    nodes = splitter.get_nodes_from_documents(documents, show_progress=False)
+    nodes = splitter.get_nodes_from_documents(documents, show_progress=True)
 
     # 组织分块结果
     results = {}
