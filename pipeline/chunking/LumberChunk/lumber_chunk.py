@@ -5,7 +5,9 @@ import requests
 import argparse
 import sys
 import os
+import multiprocessing
 
+from tqdm import tqdm
 from openai import OpenAI
 
 
@@ -261,9 +263,9 @@ for bf in book_files:
     if bf in results:
         results[bf]['filepath'] = os.path.join(args.books_dir, bf)
 tasks = [results[bf] if bf in results else {'filepath': os.path.join(args.books_dir, bf)} for bf in book_files]
-# with multiprocessing.Pool(processes=4) as pool:
-#     results = [r for r in pool.imap_unordered(process,tqdm(tasks))]
-results = [process(t) for t in tasks]
+with multiprocessing.Pool(processes=4) as pool:
+    results = [r for r in pool.imap_unordered(process,tqdm(tasks))]
+# results = [process(t) for t in tasks]
 results = {r['filepath'].split('/')[-1]: r for r in results}
 results = {bf: results[bf] for bf in book_files}
 with open(f"{out_path}/{model_type}.json", "w") as f:

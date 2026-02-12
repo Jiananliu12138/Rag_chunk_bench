@@ -322,8 +322,9 @@ class InfModel:
         self.model_deploy = model_deploy
 
     def apply_chat_template(self, question, known_answer_str=None):
-        prefix_ans = known_answer_str
-        text = f"""<|im_start|>user\n{question}<|im_end|>\n<|im_start|>assistant\n<think>\n</think>\n\n{prefix_ans}"""
+        prefix_ans = known_answer_str if known_answer_str else ""
+        # Qwen 标准 ChatML 格式，去掉了 <think> 标签
+        text = f"""<|im_start|>user\n{question}<|im_end|>\n<|im_start|>assistant\n{prefix_ans}"""
         return text
 
     # 通过VLLM引擎调用推理模型
