@@ -94,14 +94,17 @@ def qw_prompt(user_prompt):
             _prompt = (f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{user_prompt}<|im_end|>\n"
                        f"<|im_start|>assistant\n<think>\n</think>\n\n")
             _post_data = {
-                "model": "/home/tione/notebook/vincentwslu/models/Qwen3-4B",
+                "model": "Qwen3-4B",
                 "temperature": 0.6,
                 "prompt": _prompt,
-                'max_tokens': 4096,
+                'max_tokens': 3072,
             }
             response = requests.post(f"{os.environ['DS_BASE_URL']}/v1/completions", json=_post_data, timeout=600)
             res = response.json()
             return res['choices'][0]['text']
+        except KeyError as e:
+            print(f"KeyError: {e}. Full response: {res}")
+            time.sleep(60)
         except Exception as e:
             if str(e) == "list index out of range":
                 print("Deepseek thinks prompt is unsafe")

@@ -18,9 +18,9 @@ for dp in "${dataset_paths[@]}";
 do
   echo "python ./pipeline/chunking/LumberChunk/lumber_chunk.py \
     --books_dir ${dp} \
-    --model_type ${MODEL_TYPE}"
+    --model_type Qwen3-4B "
 
   python ./pipeline/chunking/LumberChunk/lumber_chunk.py \
     --books_dir ${dp} \
-    --model_type ${MODEL_TYPE}
+    --model_type Qwen3-4B 
 done
